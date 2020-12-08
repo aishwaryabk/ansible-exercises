@@ -1,0 +1,28 @@
+---   
+
+- name: package installation and find out OS
+  hosts: webhost
+  remote_user: root
+  tasks: 
+    - name: Distribution
+      debug: msg="{{ ansible_distribution }}"
+    
+    - name: Installing git, make, wget on ubuntu
+      apt: 
+        name:{{ item }} 
+        state:latest
+      with_items:
+       - make
+       - git
+       - wget
+      when: ansible_os_family == "Debian"
+      
+    - name: Installing git, make, wget on centos
+      yum: 
+        name:{{ item }} 
+        state:latest
+      with_items:
+       - make
+       - git
+       - wget
+      when: ansible_os_family == "RedHat" 
