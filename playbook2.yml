@@ -1,0 +1,16 @@
+---
+
+- name: to create empty file and add target m/c IP address
+  hosts: webhost
+  become: true 
+  tasks: 
+    - name: create empty file
+      shell: touch /tmp/foo.txt
+    
+    - name: display ip address
+      debug: var=ansible_all_ipv4_addresses
+        
+    - name: add to file
+      copy:
+        content: "{{ ansible_all_ipv4_addresses }}"
+        dest: /tmp/foo.txt
